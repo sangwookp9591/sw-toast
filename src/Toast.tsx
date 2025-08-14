@@ -13,6 +13,7 @@ export type ToastType = {
   type?: 'success' | 'error' | 'warning' | 'info';
   horizontal?: 'left' | 'center' | 'right';
   vertical?: 'bottom' | 'middle' | 'top';
+  animation: 'slide' | 'fade' | 'scale';
   text?: string;
 };
 
