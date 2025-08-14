@@ -1,4 +1,4 @@
-# sw-skeleton
+# sw-toast
 
 React용 Toast 컴포넌트 라이브러리입니다. TypeScript로 작성되어 타입 안전성을 보장하며, Storybook을 통해 컴포넌트를 시각적으로 확인할 수 있습니다.
 
@@ -11,119 +11,208 @@ npm install sw-toast
 ## 🚀 빠른 시작
 
 ```tsx
-import { Toast } from 'sw-toast';
+import { ToastProvider, useToast } from 'sw-toast';
 
 function App() {
-  return <Toast width="200px" height="20px" />;
+  return (
+    <ToastProvider>
+      <MyComponent />
+    </ToastProvider>
+  );
+}
+
+function MyComponent() {
+  const { showToast } = useToast();
+
+  const handleShowToast = () => {
+    showToast({
+      message: 'Hello, Toast!',
+      type: 'success',
+    });
+  };
+
+  return <button onClick={handleShowToast}>Show Toast</button>;
 }
 ```
 
-## 🧩 Skeleton 컴포넌트
+## 🧩 Toast 컴포넌트
 
-로딩 상태를 표시하는 스켈레톤 UI 컴포넌트입니다. shimmer 애니메이션과 다양한 커스터마이징 옵션을 제공합니다.
+사용자에게 알림 메시지를 표시하는 Toast 컴포넌트입니다. 다양한 타입, 위치, 애니메이션을 지원하며 자동으로 사라지는 기능을 제공합니다.
 
 ### 기본 사용법
 
 ```tsx
-import { Toast } from 'sw-skeleton';
+import { ToastProvider, useToast } from 'sw-toast';
 
-// 기본 사각형 스켈레톤
-<Skeleton width="200px" height="20px" />
+// 앱 최상위에서 Provider 설정
+function App() {
+  return (
+    <ToastProvider>
+      <YourApp />
+    </ToastProvider>
+  );
+}
 
-// 원형 스켈레톤
-<Skeleton
-  width="100px"
-  height="100px"
-  borderRadius="50px"
-/>
+// 컴포넌트에서 Toast 사용
+function YourComponent() {
+  const { showToast } = useToast();
 
-// 텍스트 라인 스켈레톤
-<Skeleton
-  width="300px"
-  height="16px"
-  borderRadius="4px"
-/>
+  const showSuccessToast = () => {
+    showToast({
+      message: '성공적으로 처리되었습니다!',
+      type: 'success',
+    });
+  };
+
+  const showErrorToast = () => {
+    showToast({
+      message: '오류가 발생했습니다.',
+      type: 'error',
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={showSuccessToast}>Success Toast</button>
+      <button onClick={showErrorToast}>Error Toast</button>
+    </div>
+  );
+}
 ```
 
 ### 고급 사용법
 
 ```tsx
-import { Skeleton } from 'sw-skeleton';
+import { useToast } from 'sw-toast';
 
-// 커스텀 색상과 애니메이션
-<Skeleton
-  width="500px"
-  height="10px"
-  borderRadius="50px"
-  backgroundColor="blue"
-  speed={3}
-  direction="left-to-right"
-  shimmerColor="rgba(255,255,255,0.6)"
-/>
+function AdvancedToastExample() {
+  const { showToast } = useToast();
 
-// 커스텀 그라디언트
-<Skeleton
-  width="400px"
-  height="30px"
-  borderRadius="8px"
-  backgroundColor="#f0f0f0"
-  shimmerGradient="linear-gradient(90deg, transparent, gold, transparent)"
-  speed={2}
-/>
+  const showCustomToast = () => {
+    showToast({
+      message: '커스텀 설정된 Toast입니다.',
+      type: 'warning',
+      horizontal: 'center', // left, center, right
+      vertical: 'top', // top, middle, bottom
+      animation: 'fade', // slide, fade, scale
+      duration: 5000, // 5초 후 자동 닫힘 (0이면 수동으로만 닫힘)
+      onClose: (id) => {
+        console.log(`Toast ${id}가 닫혔습니다.`);
+      },
+    });
+  };
+
+  return <button onClick={showCustomToast}>Custom Toast</button>;
+}
 ```
 
 ## 📋 Props
 
-| Prop              | 타입                                                                       | 기본값                    | 설명                                     |
-| ----------------- | -------------------------------------------------------------------------- | ------------------------- | ---------------------------------------- |
-| `width`           | `number \| string`                                                         | **필수**                  | 스켈레톤의 너비                          |
-| `height`          | `number \| string`                                                         | **필수**                  | 스켈레톤의 높이                          |
-| `borderRadius`    | `number \| string`                                                         | `0`                       | 테두리 반경                              |
-| `backgroundColor` | `string`                                                                   | `'rgb(230, 230, 230)'`    | 배경색                                   |
-| `direction`       | `'left-to-right' \| 'right-to-left' \| 'top-to-bottom' \| 'bottom-to-top'` | `'left-to-right'`         | shimmer 애니메이션 방향                  |
-| `speed`           | `number`                                                                   | `1.5`                     | 애니메이션 속도 (초 단위, 최대 3초)      |
-| `shimmerColor`    | `string`                                                                   | `'rgba(255,255,255,0.4)'` | shimmer 효과 색상                        |
-| `shimmerGradient` | `string`                                                                   | -                         | 커스텀 shimmer 그라디언트 (CSS gradient) |
-| `style`           | `React.CSSProperties`                                                      | -                         | 추가 CSS 스타일                          |
+### ToastType
+
+| Prop         | 타입                                          | 기본값    | 설명                                  |
+| ------------ | --------------------------------------------- | --------- | ------------------------------------- |
+| `message`    | `string`                                      | -         | 표시할 메시지                         |
+| `type`       | `'success' \| 'error' \| 'warning' \| 'info'` | `'info'`  | Toast 타입 (색상 결정)                |
+| `horizontal` | `'left' \| 'center' \| 'right'`               | `'right'` | 수평 위치                             |
+| `vertical`   | `'top' \| 'middle' \| 'bottom'`               | `'top'`   | 수직 위치                             |
+| `animation`  | `'slide' \| 'fade' \| 'scale'`                | `'slide'` | 나타나는 애니메이션                   |
+| `duration`   | `number`                                      | `3000`    | 자동 닫힘 시간 (ms, 0이면 수동으로만) |
+| `onClose`    | `(id: string) => void`                        | -         | Toast가 닫힐 때 호출되는 콜백         |
 
 ## 🎨 사용 예제
 
-### 텍스트 스켈레톤
+### 기본 타입별 Toast
 
 ```tsx
-// 제목 스켈레톤
-<Skeleton width="60%" height="24px" borderRadius="4px" />
+const { showToast } = useToast();
 
-// 본문 텍스트 스켈레톤들
-<Skeleton width="100%" height="16px" borderRadius="4px" style={{ marginBottom: '8px' }} />
-<Skeleton width="80%" height="16px" borderRadius="4px" style={{ marginBottom: '8px' }} />
-<Skeleton width="90%" height="16px" borderRadius="4px" />
+// 성공 메시지
+showToast({
+  message: '데이터가 성공적으로 저장되었습니다.',
+  type: 'success',
+});
+
+// 오류 메시지
+showToast({
+  message: '네트워크 연결에 실패했습니다.',
+  type: 'error',
+});
+
+// 경고 메시지
+showToast({
+  message: '저장되지 않은 변경사항이 있습니다.',
+  type: 'warning',
+});
+
+// 정보 메시지
+showToast({
+  message: '새로운 업데이트가 있습니다.',
+  type: 'info',
+});
 ```
 
-### 카드 스켈레톤
+### 위치별 Toast
 
 ```tsx
-<div style={{ padding: '16px', border: '1px solid #eee', borderRadius: '8px' }}>
-  {/* 썸네일 */}
-  <Skeleton width="100%" height="200px" borderRadius="8px" style={{ marginBottom: '16px' }} />
+// 우상단 (기본)
+showToast({
+  message: '우상단에 표시',
+  vertical: 'top',
+  horizontal: 'right',
+});
 
-  {/* 제목 */}
-  <Skeleton width="70%" height="20px" borderRadius="4px" style={{ marginBottom: '8px' }} />
+// 중앙 상단
+showToast({
+  message: '중앙 상단에 표시',
+  vertical: 'top',
+  horizontal: 'center',
+});
 
-  {/* 설명 */}
-  <Skeleton width="100%" height="16px" borderRadius="4px" style={{ marginBottom: '4px' }} />
-  <Skeleton width="80%" height="16px" borderRadius="4px" />
-</div>
+// 좌하단
+showToast({
+  message: '좌하단에 표시',
+  vertical: 'bottom',
+  horizontal: 'left',
+});
 ```
 
-### 아바타 스켈레톤
+### 애니메이션별 Toast
 
 ```tsx
-// 원형 아바타
-<Skeleton width="40px" height="40px" borderRadius="50%" />
+// 슬라이드 애니메이션 (기본)
+showToast({
+  message: '슬라이드로 나타남',
+  animation: 'slide',
+});
 
-// 정사각형 아바타
-<Skeleton width="50px" height="50px" borderRadius="8px" />
+// 페이드 애니메이션
+showToast({
+  message: '페이드로 나타남',
+  animation: 'fade',
+});
+
+// 스케일 애니메이션
+showToast({
+  message: '스케일로 나타남',
+  animation: 'scale',
+});
+```
+
+### 지속 시간 설정
+
+```tsx
+// 5초 후 자동 닫힘
+showToast({
+  message: '5초 후 자동으로 닫힙니다.',
+  duration: 5000,
+});
+
+// 수동으로만 닫힘 (자동 닫힘 비활성화)
+showToast({
+  message: '수동으로만 닫을 수 있습니다.',
+  duration: 0,
+});
 ```
 
 ## 🛠️ 개발
@@ -137,7 +226,7 @@ import { Skeleton } from 'sw-skeleton';
 
 ```bash
 git clone <repository-url>
-cd sw-skeleton
+cd sw-toast
 npm install
 ```
 
@@ -157,17 +246,22 @@ npm run build-storybook
 ## 📁 프로젝트 구조
 
 ```
-sw-skeleton/
+sw-toast/
 ├── src/
-│   ├── Skeleton.tsx        # Skeleton 컴포넌트
-│   ├── Skeleton.stories.tsx # Storybook 스토리
-│   ├── skeleton.css.ts     # 스타일 정의
-│   └── index.ts            # 라이브러리 진입점
-├── dist/                   # 빌드된 파일들
-│   ├── index.js           # CommonJS 형식
-│   ├── index.mjs          # ESM 형식
-│   └── index.d.ts         # TypeScript 타입 정의
-├── stories/                # Storybook 스토리들
+│   ├── components/
+│   │   ├── Toast.tsx           # Toast 컴포넌트
+│   │   ├── ToastContainer.tsx  # Toast 컨테이너
+│   │   └── Toast.css.ts        # 스타일 정의
+│   ├── context/
+│   │   └── ToastProvider.tsx   # Toast Context Provider
+│   ├── types/
+│   │   └── type.ts             # TypeScript 타입 정의
+│   ├── Toast.stories.tsx       # Storybook 스토리
+│   └── index.ts                # 라이브러리 진입점
+├── dist/                       # 빌드된 파일들
+│   ├── index.js               # CommonJS 형식
+│   ├── index.mjs              # ESM 형식
+│   └── index.d.ts             # TypeScript 타입 정의
 ├── package.json
 └── README.md
 ```
@@ -199,6 +293,7 @@ npm run storybook
 - **Storybook**: 9.1+
 - **tsup**: 8.5+
 - **Vanilla Extract**: CSS-in-JS 스타일링
+- **UUID**: 고유 ID 생성
 
 ## 📝 라이센스
 
@@ -214,4 +309,4 @@ MIT License - 자유롭게 사용, 수정, 배포 가능합니다.
 
 ## 📞 지원
 
-버그 리포트나 기능 제안은 [GitHub Issues](https://github.com/your-username/sw-skeleton/issues)를 이용해주세요.
+버그 리포트나 기능 제안은 [GitHub Issues](https://github.com/sangwookp9591/sw-toast/issues)를 이용해주세요.
