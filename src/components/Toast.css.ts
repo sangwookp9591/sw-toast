@@ -31,6 +31,15 @@ export const container = style({
   gap: 8,
 });
 
+export const containerPosition = {
+  'top-left': style({ top: 16, left: 16 }),
+  'top-center': style({ top: 16, left: '50%', transform: 'translateX(-50%)' }),
+  'top-right': style({ top: 16, right: 16 }),
+  'bottom-left': style({ bottom: 16, left: 16 }),
+  'bottom-center': style({ bottom: 16, left: '50%', transform: 'translateX(-50%)' }),
+  'bottom-right': style({ bottom: 16, right: 16 }),
+};
+
 // 애니메이션
 const slideIn = keyframes({
   '0%': { transform: 'translateX(100%)', opacity: 0 },
