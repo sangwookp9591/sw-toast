@@ -1,30 +1,68 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { ToastProvider, useToast } from 'sw-toast';
 
-import './App.css';
+const ToastDemo = () => {
+  const { showToast } = useToast();
 
-function App() {
-  const [count, setCount] = useState(0);
+  const handleClose = (id: string) => {
+    console.log(`Toast ${id} closed`);
+  };
 
   return (
+    <div style={{ display: 'flex', gap: 12 }}>
+      <button
+        onClick={() =>
+          showToast({
+            message: 'Success!',
+            type: 'success',
+            onClose: handleClose,
+          })
+        }
+      >
+        Success
+      </button>
+      <button
+        onClick={() =>
+          showToast({
+            message: 'Error!',
+            type: 'error',
+            onClose: handleClose,
+          })
+        }
+      >
+        Error
+      </button>
+      <button
+        onClick={() =>
+          showToast({
+            message: 'Warning!',
+            type: 'warning',
+            onClose: handleClose,
+          })
+        }
+      >
+        Warning
+      </button>
+      <button
+        onClick={() =>
+          showToast({
+            message: 'Info!',
+            type: 'info',
+            onClose: handleClose,
+          })
+        }
+      >
+        Info
+      </button>
+    </div>
+  );
+};
+
+function App() {
+  return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <ToastProvider>
+        <ToastDemo />
+      </ToastProvider>
     </>
   );
 }
