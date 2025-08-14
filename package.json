@@ -18,7 +18,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --external react --external react-dom",
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react --external react-dom --css",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
