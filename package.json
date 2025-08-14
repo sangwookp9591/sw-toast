@@ -18,12 +18,8 @@
     "dist",
     "*.css"
   ],
-  "sideEffects": [
-    "**/*.css",
-    "**/*.css.ts"
-  ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react --external react-dom",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

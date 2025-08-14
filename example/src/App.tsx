@@ -1,3 +1,5 @@
+import 'sw-toast/dist/index.css';
+
 import { ToastProvider, useToast } from 'sw-toast';
 
 const ToastDemo = () => {
