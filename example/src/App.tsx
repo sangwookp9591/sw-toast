@@ -60,15 +60,9 @@ const ToastDemo = () => {
 function App() {
   return (
     <>
-      <div
-        style={{
-          flex: 1,
-        }}
-      >
-        <ToastProvider>
-          <ToastDemo />
-        </ToastProvider>
-      </div>
+      <ToastProvider>
+        <ToastDemo />
+      </ToastProvider>
     </>
   );
 }
