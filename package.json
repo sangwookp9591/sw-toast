@@ -18,6 +18,10 @@
     "dist",
     "*.css"
   ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.css.ts"
+  ],
   "scripts": {
     "build": "tsup",
     "storybook": "storybook dev -p 6006",
