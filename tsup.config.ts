@@ -8,5 +8,4 @@ export default defineConfig({
   dts: true,
   external: ['react', 'react-dom'],
   esbuildPlugins: [vanillaExtractPlugin()],
-  minify: false,
 });
