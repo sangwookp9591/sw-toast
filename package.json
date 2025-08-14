@@ -19,7 +19,7 @@
     "*.css"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
