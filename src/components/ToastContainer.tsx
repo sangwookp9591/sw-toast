@@ -1,6 +1,8 @@
+// ToastContainer.tsx
 'use client';
 
-import styles from './toast.module.css';
+import React from 'react';
+import { css } from '@emotion/react';
 import { ToastType } from '../types/type';
 import Toast from './Toast';
 import { createPortal } from 'react-dom';
@@ -19,32 +21,61 @@ type ToastContainerProps = {
   onClose: (id: string) => void;
 };
 
+// 기본 컨테이너 스타일
+const containerBaseStyle = css`
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+
+  & > * {
+    pointer-events: auto;
+  }
+`;
+
+// 포지션별 스타일
+const positionStyles = {
+  'top-left': css`
+    top: 16px;
+    left: 16px;
+  `,
+  'top-center': css`
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  `,
+  'top-right': css`
+    top: 16px;
+    right: 16px;
+  `,
+  'bottom-left': css`
+    bottom: 16px;
+    left: 16px;
+  `,
+  'bottom-center': css`
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  `,
+  'bottom-right': css`
+    bottom: 16px;
+    right: 16px;
+  `,
+};
+
 const ToastContainer = ({ position, toasts, onClose }: ToastContainerProps) => {
   // 브라우저 환경 확인
-  /* typeof document !== 'undefined' 체크: SSR 환경(Next.js App Router)에서도 안전 */
   if (typeof document === 'undefined') return null;
 
-  // position을 CSS 클래스명으로 변환
-  const getPositionClass = (pos: Position) => {
-    const positionMap = {
-      'top-left': styles.topLeft,
-      'top-center': styles.topCenter,
-      'top-right': styles.topRight,
-      'bottom-left': styles.bottomLeft,
-      'bottom-center': styles.bottomCenter,
-      'bottom-right': styles.bottomRight,
-    };
-    return positionMap[pos];
-  };
-
   return createPortal(
-    <div className={`${styles.container} ${getPositionClass(position)}`}>
-      {toasts.map((t) => (
-        <Toast key={t.id} {...t} onClose={onClose} />
+    <div css={[containerBaseStyle, positionStyles[position]]}>
+      {toasts.map((toast) => (
+        <Toast key={toast.id} {...toast} onClose={onClose} />
       ))}
     </div>,
     document.body,
-    // body 바로 아래에 렌더링
   );
 };
 
