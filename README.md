@@ -225,7 +225,7 @@ showToast({
 ### 설치
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/sangwookp9591/sw-toast.git
 cd sw-toast
 npm install
 ```
@@ -233,14 +233,23 @@ npm install
 ### 스크립트
 
 ```bash
-# 라이브러리 빌드
+# 라이브러리 빌드 (Vite + TypeScript 타입 생성)
 npm run build
+
+# TypeScript 타입 정의만 생성
+npm run build:types
+
+# 타입 체크
+npm run type-check
 
 # Storybook 실행
 npm run storybook
 
 # Storybook 빌드
 npm run build-storybook
+
+# 개발 서버 실행
+npm run dev
 ```
 
 ## 📁 프로젝트 구조
@@ -251,17 +260,25 @@ sw-toast/
 │   ├── components/
 │   │   ├── Toast.tsx           # Toast 컴포넌트
 │   │   ├── ToastContainer.tsx  # Toast 컨테이너
-│   │   └── Toast.css.ts        # 스타일 정의
+│   │   └── toast.module.css    # CSS 모듈 스타일
 │   ├── context/
 │   │   └── ToastProvider.tsx   # Toast Context Provider
 │   ├── types/
 │   │   └── type.ts             # TypeScript 타입 정의
-│   ├── Toast.stories.tsx       # Storybook 스토리
+│   ├── stories/                # Storybook 스토리들
+│   │   ├── Button.stories.ts
+│   │   ├── Header.stories.ts
+│   │   └── Page.stories.ts
 │   └── index.ts                # 라이브러리 진입점
 ├── dist/                       # 빌드된 파일들
 │   ├── index.js               # CommonJS 형식
 │   ├── index.mjs              # ESM 형식
-│   └── index.d.ts             # TypeScript 타입 정의
+│   ├── index.d.ts             # TypeScript 타입 정의
+│   ├── components/            # 컴포넌트별 타입 정의
+│   ├── context/               # Context 타입 정의
+│   ├── types/                 # 타입 정의
+│   └── sw-toast.css           # CSS 파일
+├── example/                   # 사용 예제 프로젝트
 ├── package.json
 └── README.md
 ```
@@ -280,20 +297,27 @@ npm run storybook
 
 라이브러리는 다음 형식으로 빌드됩니다:
 
-- **CommonJS**: `dist/index.js`
-- **ESM**: `dist/index.mjs`
-- **TypeScript 타입**: `dist/index.d.ts`
+- **CommonJS**: `dist/index.js` (Node.js 환경용)
+- **ESM**: `dist/index.mjs` (모던 번들러용)
+- **TypeScript 타입**: `dist/index.d.ts` (타입 안전성)
 
-빌드에는 [tsup](https://tsup.egoist.dev/)을 사용하여 최적화된 번들을 생성합니다.
+빌드에는 [Vite](https://vitejs.dev/)를 사용하여 최적화된 번들을 생성합니다.
 
 ## 🔧 기술 스택
 
 - **React**: 18+ / 19+
 - **TypeScript**: 5.9+
+- **Vite**: 7.1+ (빌드 도구)
 - **Storybook**: 9.1+
-- **tsup**: 8.5+
-- **Vanilla Extract**: CSS-in-JS 스타일링
+- **Emotion**: CSS-in-JS 스타일링
 - **UUID**: 고유 ID 생성
+
+## 📦 패키지 정보
+
+- **현재 버전**: 1.0.17
+- **패키지 크기**: ~132KB (압축됨)
+- **타입 지원**: 완전한 TypeScript 지원
+- **번들 형식**: CommonJS + ESM + TypeScript 타입
 
 ## 📝 라이센스
 
@@ -310,3 +334,17 @@ MIT License - 자유롭게 사용, 수정, 배포 가능합니다.
 ## 📞 지원
 
 버그 리포트나 기능 제안은 [GitHub Issues](https://github.com/sangwookp9591/sw-toast/issues)를 이용해주세요.
+
+## 🔄 변경 이력
+
+### v1.2.0
+
+- TypeScript 타입 정의 파일 완전 지원
+- npm 레지스트리 배포 최적화
+- 빌드 프로세스 개선
+
+### v1.2.0
+
+- 초기 릴리즈
+- 기본 Toast 기능 구현
+- Storybook 통합
