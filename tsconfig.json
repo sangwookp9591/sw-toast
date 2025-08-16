@@ -1,15 +1,17 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "module": "ESNext",
-        "lib": ["DOM", "ESNext"],
-        "declaration": true,
-        "outDir": "dist",
-        "jsx": "react-jsx",
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
-    },
-    "include": ["src", "example"]
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "lib": ["DOM", "ESNext"],
+    "declaration": true,
+    "outDir": "dist",
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsxImportSource": "@emotion/react"
+  },
+  "include": ["src", "example"],
+  "exclude": ["src/**/*.stories.*", "src/**/*.test.*"]
 }
