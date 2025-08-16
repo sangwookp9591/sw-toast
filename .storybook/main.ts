@@ -1,5 +1,4 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -8,10 +7,18 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  async viteFinal(config) {
-    if (config.plugins) {
-      config.plugins.push(vanillaExtractPlugin());
+  // Vite 설정을 재사용하여 Emotion 지원
+  viteFinal: async (config) => {
+    // esbuild 설정에 Emotion jsxImportSource 추가
+    if (config.esbuild) {
+      config.esbuild.jsxImportSource = '@emotion/react';
+    } else {
+      config.esbuild = {
+        jsxImportSource: '@emotion/react',
+        jsx: 'automatic',
+      };
     }
+
     return config;
   },
 };
