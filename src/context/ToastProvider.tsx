@@ -1,10 +1,9 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { ToastType } from '../types/type';
+import { ToastType, Position } from '../types/type';
 import { v4 as uuid } from 'uuid';
 import ToastContainer from '../components/ToastContainer';
-import { containerPosition } from '../components/Toast.css';
 
 type ToastContextType = {
   //showToast 함수 하나만 제공하고, id는 내부에서 생성하도록 설계
@@ -46,7 +45,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         return (
           <ToastContainer
             key={key}
-            position={`${vertical}-${horizontal}` as keyof typeof containerPosition}
+            position={`${vertical}-${horizontal}` as Position}
             toasts={toasts}
             onClose={(id) => removeToast(key, id)}
           />

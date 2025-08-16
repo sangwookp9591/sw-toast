@@ -8,3 +8,12 @@ export type ToastType = {
   duration?: number; // 자동 닫힘 시간 (ms)
   onClose?: (id: string) => void;
 };
+
+// Toast 컨테이너 위치 타입
+export type Position =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
