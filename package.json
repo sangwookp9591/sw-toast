@@ -1,6 +1,6 @@
 {
   "name": "sw-toast",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "React용 공통 Toast 컴포넌트 라이브러리",
   "author": "sangwook.park",
   "license": "MIT",
@@ -12,15 +12,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    }
+    },
+    "./dist/*": "./dist/*"
   },
   "files": [
-    "dist",
+    "dist/**/*",
     "*.css"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.build.json --emitDeclarationOnly && vite build",
+    "build": "vite build && tsc -p tsconfig.build.json --emitDeclarationOnly",
     "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
