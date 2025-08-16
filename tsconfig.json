@@ -3,15 +3,17 @@
     "target": "ES6",
     "module": "ESNext",
     "lib": ["DOM", "ESNext"],
-    "declaration": true,
+    "declaration": false,
     "outDir": "dist",
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "strict": false,
+    "noEmit": true
   },
   "include": ["src", "example"],
-  "exclude": ["src/**/*.stories.*", "src/**/*.test.*"]
+  "exclude": ["src/**/*.stories.*", "src/**/*.test.*", "src/**/*.spec.*", "node_modules", "dist"]
 }
