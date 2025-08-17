@@ -8,6 +8,8 @@ import ToastContainer from '../components/ToastContainer';
 type ToastContextType = {
   //showToast 함수 하나만 제공하고, id는 내부에서 생성하도록 설계
   showToast: (toast: Omit<ToastType, 'id'>) => void; //Omit<Type, keys>: keys (id | description) 제외한 타입
+  pauseToast: (id: string) => void;
+  resumeToast: (id: string) => void;
 };
 
 //초깃값으로 undefined를 넣어둔 이유는 Provider 밖에서 접근 시 에러를 발생시키기 위함
@@ -29,6 +31,8 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
       setTimeout(() => removeToast(key, id), toast.duration ?? 3000);
     }
   };
+  const pauseToast = () => {};
+  const resumeToast = () => {};
 
   const removeToast = (key: string, id: string) => {
     setToastMap((prev) => ({
@@ -38,7 +42,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={{ showToast, pauseToast, resumeToast }}>
       {children}
       {Object.entries(toastMap).map(([key, toasts]) => {
         const [vertical, horizontal] = key.split('-');
