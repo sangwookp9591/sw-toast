@@ -8,6 +8,7 @@ export type ToastType = {
   duration?: number; // 자동 닫힘 시간 (ms)
   pauseOnHover?: boolean;
   progressBar?: boolean;
+  progressColor?: string;
   onClose?: (id: string) => void;
 };
 

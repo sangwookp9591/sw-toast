@@ -170,6 +170,7 @@ const Toast = ({
   animation = 'slide',
   pauseOnHover = true,
   progressBar = true,
+  progressColor = 'rgba(255, 255, 255, 0.7)',
   duration = 3000,
 }: Props) => {
   const { pauseToast, resumeToast } = useToast();
@@ -296,6 +297,7 @@ const Toast = ({
           css={[progressBarStyle, progressBarTypeStyles[type]]}
           style={{
             width: `${progress}%`,
+            backgroundColor: `${progressColor}`,
             // 디버깅용 (개발자 도구에서 확인 가능)
             ['data-progress' as any]: progress.toFixed(1),
             ['data-remaining' as any]: remainingTimeRef.current,
