@@ -6,6 +6,7 @@ export type ToastType = {
   animation?: 'slide' | 'fade' | 'scale';
   message?: string;
   duration?: number; // 자동 닫힘 시간 (ms)
+  pauseOnHover?: boolean;
   onClose?: (id: string) => void;
 };
 
