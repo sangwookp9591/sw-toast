@@ -16,6 +16,13 @@ type ToastContextType = {
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 type ToastMap = Record<string, ToastType[]>;
 
+type ToastTimer = {
+  timeoutId: NodeJS.Timeout;
+  startTime: number;
+  remainingTime: number;
+  isPaused: boolean;
+};
+
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
   const [toastMap, setToastMap] = useState<ToastMap>({});
   const showToast = (toast: Omit<ToastType, 'id'>) => {
